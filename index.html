@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Love Terminal</title>
+
+<style>
+    body {
+        background: #000;
+        font-family: Consolas, monospace;
+        color: #00ff91;
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #terminal {
+        width: 90%;
+        max-width: 800px;
+        height: 80vh;
+        padding: 20px;
+        border: 2px solid #00ff91;
+        border-radius: 10px;
+        overflow-y: auto;
+        box-shadow: 0 0 20px #00ff91;
+        font-size: 17px;
+    }
+
+    #input-line {
+        display: flex;
+        margin-top: 10px;
+    }
+
+    #prompt {
+        margin-right: 10px;
+        color: #00ff91;
+    }
+
+    #commandInput {
+        flex: 1;
+        background: transparent;
+        border: none;
+        outline: none;
+        font-family: inherit;
+        font-size: inherit;
+        color: #00ff91;
+    }
+
+    ::selection {
+        background: #00ff91;
+        color: #000;
+    }
+</style>
+</head>
+
+<body>
+<div id="terminal"></div>
+
+<div id="input-line">
+    <span id="prompt">></span>
+    <input type="text" id="commandInput" autofocus />
+</div>
+
+<script>
+const terminal = document.getElementById("terminal");
+const input = document.getElementById("commandInput");
+
+function print(text) {
+    terminal.innerHTML += text + "<br>";
+    terminal.scrollTop = terminal.scrollHeight;
+}
+
+function intro() {
+    print("💚 Welcome to Love Terminal v2");
+    print("💚 Made specially for Amrutha");
+    print("💚 Type 'help' to begin");
+    print("<br>");
+}
+intro();
+
+// Mini Game — Guess the Number
+let gameActive = false;
+let gameNumber = Math.floor(Math.random() * 10) + 1;
+
+// COMMAND HANDLER
+input.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") {
+        const cmd = input.value.trim().toLowerCase();
+        print("> " + cmd);
+        handleCommand(cmd);
+        input.value = "";
+    }
+});
+
+function handleCommand(cmd) {
+
+    if (gameActive) {
+        const guess = parseInt(cmd);
+        if (guess === gameNumber) {
+            print("🎉 Correct! You won!");
+            gameActive = false;
+            print("");
+        } else {
+            print("❌ Wrong guess, try again!");
+        }
+        return;
+    }
+
+    switch (cmd) {
+        case "help":
+            print("Available commands:");
+            print("• hello");
+            print("• howwasyourday");
+            print("• love");
+            print("• game");
+            print("• joke");
+            print("• compliment");
+            print("• surprise");
+            print("• dream");
+            print("• clear");
+            break;
+
+        case "hello":
+            print("Hello Amrutha 💚 Hope you're smiling right now :)");
+            break;
+
+        case "howwasyourday":
+            print("My day was great because you're here 💚 How was yours?");
+            break;
+
+        case "love":
+            print("I love you in every universe, every timeline, every reality 💚");
+            break;
+
+        case "game":
+            print("🎮 Mini Game: Guess a number between 1-10");
+            print("Type your guess:");
+            gameActive = true;
+            gameNumber = Math.floor(Math.random() * 10) + 1;
+            break;
+
+        case "joke":
+            print("😂 Joke: Are you a magician? Because whenever I look at you, everyone else disappears.");
+            break;
+
+        case "compliment":
+            print("💚 Compliment: Your smile is the only sunlight I need.");
+            break;
+
+        case "surprise":
+            print("🎁 Surprise message: One day, I'll tell you the story of how you changed everything for me.");
+            break;
+
+        case "dream":
+            print("🌙 Dream mode: Imagine us sitting under the stars, laughing about how shy we were at the start.");
+            break;
+
+        case "clear":
+            terminal.innerHTML = "";
+            break;
+
+        default:
+            print("❌ Unknown command. Type 'help'.");
+    }
+}
+</script>
+
+</body>
+</html>
